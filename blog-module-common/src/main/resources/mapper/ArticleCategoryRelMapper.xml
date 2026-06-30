@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haha.blog.common.mapper.ArticleCategoryRelMapper">
+
+    <select id="selectCountGroupByCategoryId" resultType="com.haha.blog.common.domain.dto.category.CategoryAndArticlesTotalDTO">
+        SELECT
+            c.id AS categoryId,
+            COUNT(r.article_id) AS articlesTotal
+        FROM t_category c
+                 LEFT JOIN t_article_category_rel r
+                           ON c.id = r.category_id
+        GROUP BY c.id
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haha.blog.common.mapper.CategoryMapper">
+
+    <update id="batchUpdateArticlesTotalCount">
+        UPDATE t_category
+        SET articles_total = CASE id
+        <foreach collection="list" item="item">
+            WHEN #{item.categoryId} THEN #{item.articlesTotal}
+        </foreach>
+        ELSE articles_total
+        END
+        WHERE id IN
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item.categoryId}
+        </foreach>
+    </update>
+
+
+
+
+
+</mapper>

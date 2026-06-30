@@ -1,0 +1,51 @@
+HELP.md
+
+### Maven 构建输出 ###
+**/target/
+.mvn/wrapper/maven-wrapper.jar
+
+### 测试代码（如需提交测试代码，删除此行）###
+**/src/test/
+
+### IDE 配置文件 ###
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse / STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+
+# VS Code
+.vscode/
+
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+build/
+
+### 日志文件 ###
+*.log
+logs/
+
+### 敏感配置文件（包含数据库密码、密钥等，绝对不要提交）###
+**/application-dev.yml
+**/application-prod.yml
+**/application-local.yml
+
+### 系统文件 ###
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~

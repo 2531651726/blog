@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haha.blog.common.mapper.ArticleTagRelMapper">
+
+    <select id="selectCountGroupByTagId" resultType="com.haha.blog.common.domain.dto.tag.TagAndArticlesTotalDTO">
+        SELECT
+            t.id AS tagId,
+            COUNT(r.article_id) AS articlesTotal
+        FROM t_tag t
+                 LEFT JOIN t_article_tag_rel r
+                           ON t.id = r.tag_id
+        GROUP BY t.id
+    </select>
+</mapper>

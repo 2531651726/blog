@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: dev
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  redis:
+    timeout: 3000
+    lettuce:
+      pool:
+        # 连接池最大连接数
+        max-active: 8
+        # 连接池最大空闲连接数
+        max-idle: 8
+        # 连接池最小空闲连接数
+        min-idle: 2
+        # 获取连接最大等待时间
+        max-wait: 1000ms
+        # 空闲连接巡检周期，每 30 秒清理一次失效连接并顺带发送 PING 心跳
+        time-between-eviction-runs: 30s
+
+jwt:
+  # token 过期时间（单位：分钟） 24*60
+  tokenExpireTime: 1440
+  # token 请求头中的 key 值
+  tokenHeaderKey: Authorization
+  # token 请求头中的 value 值前缀
+  tokenPrefix: Bearer
+
+

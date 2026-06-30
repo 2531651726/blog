@@ -65,6 +65,10 @@ public class ArticleDO implements Serializable {
      * 被阅读次数
      */
     private Long readNum;
+    /**
+     * 权重，决定文章展示顺序
+     */
+    private Integer weight;
 
 
 }

@@ -1,5 +1,6 @@
 package com.haha.blog.admin.service;
 
+import com.haha.blog.admin.domain.dto.Article.UpdateArticleWeightDTO;
 import com.haha.blog.common.domain.dos.ArticleDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.haha.blog.admin.domain.dto.Article.DeleteArticleDTO;
@@ -30,4 +31,6 @@ public interface IArticleAdminService extends IService<ArticleDO> {
     ArticleDetailVO queryArticleDetail(ArticleDetailQuery query);
 
     void updateArticle(UpdateArticleDTO dto);
+
+    void updateArticleWeight(UpdateArticleWeightDTO dto);
 }

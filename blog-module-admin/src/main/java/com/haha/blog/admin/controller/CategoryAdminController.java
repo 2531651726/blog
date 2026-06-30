@@ -12,6 +12,7 @@ import com.haha.blog.common.utils.PageDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +32,7 @@ public class CategoryAdminController {
     @PostMapping("/category/add")
     @ApiOperation("添加分类")
     @ApiOperationLog(description = "添加分类")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void saveCategory(@Validated @RequestBody AddCategoryDTO dto) {
         categoryService.saveCategory(dto);
     }
@@ -45,6 +47,7 @@ public class CategoryAdminController {
     @PostMapping("/category/delete")
     @ApiOperation("删除分类")
     @ApiOperationLog(description = "删除分类")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteCategory(@Validated @RequestBody DeleteCategoryDTO dto) {
         categoryService.deleteCategory(dto);
     }

@@ -25,4 +25,6 @@ public class ArticleVO {
      * 文章标签
      */
     private List<TagVO> tags;
+
+    private Boolean isTop;
 }

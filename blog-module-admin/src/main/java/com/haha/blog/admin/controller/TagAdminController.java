@@ -12,6 +12,7 @@ import com.haha.blog.common.utils.PageDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +32,7 @@ public class TagAdminController {
     @PostMapping("/add")
     @ApiOperation("新增标签")
     @ApiOperationLog(description = "新增标签")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void addTags(@RequestBody @Validated AddTagDTO dto) {
         tagService.addTags(dto);
     }
@@ -45,6 +47,7 @@ public class TagAdminController {
     @PostMapping("/delete")
     @ApiOperation("删除标签")
     @ApiOperationLog(description = "删除标签")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteTag(@RequestBody @Validated DeleteTagDTO dto) {
         tagService.deleteTagById(dto);
     }

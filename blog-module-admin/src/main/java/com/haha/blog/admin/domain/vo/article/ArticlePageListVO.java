@@ -28,6 +28,11 @@ public class ArticlePageListVO {
     private String cover;
 
     /**
+     * 是否置顶
+     */
+    private Boolean isTop;
+
+    /**
      * 发布时间
      */
     private LocalDateTime createTime;

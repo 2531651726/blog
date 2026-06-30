@@ -3,6 +3,7 @@ package com.haha.blog.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.haha.blog.admin.domain.dto.Article.UpdateArticleWeightDTO;
 import com.haha.blog.admin.event.message.ArticleChangeMessage;
 import com.haha.blog.admin.service.IArticleAdminService;
 import com.haha.blog.common.domain.dos.*;
@@ -120,6 +121,7 @@ public class ArticleAdminServiceImpl extends ServiceImpl<ArticleMapper, ArticleD
                 .like(StringUtils.isNoneBlank(title), ArticleDO::getTitle, title)
                 .ge(Objects.nonNull(startDateTime), ArticleDO::getCreateTime, startDateTime)
                 .le(Objects.nonNull(endDateTime), ArticleDO::getCreateTime, endDateTime)
+                .orderByDesc(ArticleDO::getWeight) // 按权重倒序
                 .orderByDesc(ArticleDO::getCreateTime)
                 .page(new Page<>(current, size));
         List<ArticleDO> ArticleDOList = page.getRecords();
@@ -127,7 +129,11 @@ public class ArticleAdminServiceImpl extends ServiceImpl<ArticleMapper, ArticleD
             return PageDTO.success(page, Collections.emptyList());
         }
         List<ArticlePageListVO> voList = ArticleDOList.stream()
-                .map(articleDO -> BeanUtils.copyBean(articleDO, ArticlePageListVO.class))
+                .map(articleDO -> {
+                    ArticlePageListVO vo = BeanUtils.copyBean(articleDO, ArticlePageListVO.class);
+                    vo.setIsTop(articleDO.getWeight() > 0);
+                    return vo;
+                })
                 .collect(Collectors.toList());
         return PageDTO.success(page, voList);
     }
@@ -205,6 +211,21 @@ public class ArticleAdminServiceImpl extends ServiceImpl<ArticleMapper, ArticleD
                 .eq(ArticleTagRelDO::getArticleId, articleId));
         List<String> tags = dto.getTags();
         insertTags(articleId, tags);
+    }
+
+    @Override
+    public void updateArticleWeight(UpdateArticleWeightDTO dto) {
+        Long articleId = dto.getId();
+        Integer weight = dto.getWeight();
+        ArticleDO articleDO = articleMapper.selectById(articleId);
+        if (Objects.isNull(articleDO)) {
+            throw new BizException("该文章不存在");
+        }
+        ArticleDO articleUpdateDO = new ArticleDO().setId(articleId).setWeight(weight);
+        int row = articleMapper.updateById(articleUpdateDO);
+        if (row == 0) {
+            throw new BizException("权重更新失败");
+        }
     }
 
     private void insertTags(Long articleId, List<String> publishTags) {

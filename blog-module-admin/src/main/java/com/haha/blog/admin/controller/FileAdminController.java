@@ -6,6 +6,7 @@ import com.haha.blog.common.aspect.ApiOperationLog;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ public class FileAdminController {
     @PostMapping("/file/upload")
     @ApiOperation("上传文件")
     @ApiOperationLog(description = "上传文件")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public FileUploadVO uploadFile(MultipartFile file) {
         return fileservice.uploadFile(file);
     }

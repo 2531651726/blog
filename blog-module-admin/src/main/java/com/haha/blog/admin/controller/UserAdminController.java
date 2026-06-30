@@ -9,6 +9,7 @@ import com.haha.blog.admin.domain.vo.user.UserInfoVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ public class UserAdminController {
     @PostMapping("/password/update")
     @ApiOperation("修改用户密码")
     @ApiOperationLog(description = "修改用户密码")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updatePassword(@RequestBody @Validated UpdateAdminUserPasswordDTO vo){
         userService.updatePassword(vo);
     }

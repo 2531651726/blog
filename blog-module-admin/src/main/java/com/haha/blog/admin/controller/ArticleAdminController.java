@@ -1,5 +1,6 @@
 package com.haha.blog.admin.controller;
 
+import com.haha.blog.admin.domain.dto.Article.UpdateArticleWeightDTO;
 import com.haha.blog.common.aspect.ApiOperationLog;
 import com.haha.blog.admin.domain.dto.Article.DeleteArticleDTO;
 import com.haha.blog.admin.domain.dto.Article.UpdateArticleDTO;
@@ -13,6 +14,7 @@ import com.haha.blog.common.utils.PageDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,7 @@ public class ArticleAdminController {
     @PostMapping("/publish")
     @ApiOperation("发布文章")
     @ApiOperationLog(description = "发布文章")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void publishArticle(@Validated @RequestBody PublishArticleQuery query){
         articleService.publishArticle(query);
     }
@@ -34,6 +37,7 @@ public class ArticleAdminController {
     @PostMapping("/delete")
     @ApiOperation("删除文章")
     @ApiOperationLog(description = "删除文章")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteArticle(@Validated @RequestBody DeleteArticleDTO dto){
         articleService.deleteArticle(dto);
     }
@@ -55,7 +59,16 @@ public class ArticleAdminController {
     @PostMapping("/update")
     @ApiOperation("更新文章")
     @ApiOperationLog(description = "更新文章")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateArticle(@Validated @RequestBody UpdateArticleDTO dto){
         articleService.updateArticle(dto);
+    }
+
+    @PostMapping("/isTop/update")
+    @ApiOperation(value = "更新文章置顶状态")
+    @ApiOperationLog(description = "更新文章置顶状态")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void updateArticleWeight(@Validated @RequestBody UpdateArticleWeightDTO dto){
+        articleService.updateArticleWeight(dto);
     }
 }

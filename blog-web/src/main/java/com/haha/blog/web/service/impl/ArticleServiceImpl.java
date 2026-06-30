@@ -59,7 +59,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleDO> im
         Long current = query.getCurrent();
         Long size = query.getSize();
         // 分页查询文章
-        Page<ArticleDO> articleDOPage = lambdaQuery().page(new Page<>(current, size));
+        Page<ArticleDO> articleDOPage = lambdaQuery()
+                .orderByDesc(ArticleDO::getWeight) // 按权重倒序
+                .orderByDesc(ArticleDO::getCreateTime)
+                .page(new Page<>(current, size));
         List<ArticleDO> articleDOS = articleDOPage.getRecords();
         List<ArticleVO> vos = null;
         if (!CollectionUtils.isEmpty(articleDOS)) {
@@ -68,6 +71,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleDO> im
                     .map(articleDO -> {
                         ArticleVO articleVO = BeanUtils.copyBean(articleDO, ArticleVO.class);
                         articleVO.setCreateDate(articleDO.getCreateTime().toLocalDate());
+                        articleVO.setIsTop(articleDO.getWeight() > 0);
                         return articleVO;
                     })
                     .collect(Collectors.toList());

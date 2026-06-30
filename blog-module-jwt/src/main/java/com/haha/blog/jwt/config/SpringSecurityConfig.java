@@ -79,7 +79,7 @@ public class SpringSecurityConfig{
                 .formLogin().disable()   // 禁用表单登录
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 不创建session
                 .authorizeHttpRequests(authorize -> authorize
-                        .mvcMatchers("/admin/**").hasRole("ADMIN")
+                        .mvcMatchers("/admin/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 // 配置全局异常处理器

@@ -1,5 +1,6 @@
 package com.haha.blog.jwt.config;
 
+import cloud.tianai.captcha.application.ImageCaptchaApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.haha.blog.jwt.filter.JwtLoginFilter;
@@ -44,6 +45,8 @@ public class SpringSecurityConfig{
     private final RestAccessDeniedHandler restAccessDeniedHandler;
     // JWT 过滤器
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
+    // 行为验证码
+    private final ImageCaptchaApplication imageCaptchaApplication;
 
     // 密码加密器
     @Bean
@@ -92,6 +95,8 @@ public class SpringSecurityConfig{
         jwtLoginFilter.setAuthenticationManager(authenticationManager);
         jwtLoginFilter.setAuthenticationSuccessHandler(restAuthenticationSuccessHandler);
         jwtLoginFilter.setAuthenticationFailureHandler(restAuthenticationFailureHandler);
+        // 注入行为验证码校验器
+        jwtLoginFilter.setImageCaptchaApplication(imageCaptchaApplication);
         // 注册自定义认证提供者
         http.authenticationProvider(daoAuthenticationProvider());
         http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

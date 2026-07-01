@@ -1,5 +1,6 @@
 package com.haha.blog.common.handler;
 
+import com.haha.blog.common.aspect.SkipResponseWrap;
 import com.haha.blog.common.utils.JsonUtil;
 import com.haha.blog.common.utils.Response;
 import org.springframework.core.MethodParameter;
@@ -17,8 +18,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 public class GlobalResponseAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        // 如果已经是 Response 类型，则不需要再次包装
-        return !Response.class.isAssignableFrom(returnType.getParameterType());
+        // 1. 方法加了@SkipResponseWrap注解 直接跳过
+        // 2. 返回值本身就是Response类型 也跳过
+        boolean skipByAnnotation = returnType.hasMethodAnnotation(SkipResponseWrap.class);
+        boolean skipByReturnType = Response.class.isAssignableFrom(returnType.getParameterType());
+        // 两个条件任意一个满足 → 不执行全局包装
+        return !skipByAnnotation && !skipByReturnType;
     }
 
     @Override

@@ -51,19 +51,10 @@ public class UserAdminServiceImpl extends ServiceImpl<UserMapper, UserDO> implem
     @Override
     public UserInfoVO getUserInfo() {
         String username = UserUtils.getUsername();
-        UserInfoVO userInfoVO = new UserInfoVO();
-        userInfoVO.setUsername(username);
-        return userInfoVO;
-    }
-
-    @Override
-    public UserInfoVO queryAdminDetail() {
-        String username = UserUtils.getUsername();
         BlogSettingsDO blogSettingsDO = blogSettingsMapper.selectOne(null);
-        UserInfoVO userInfoVO = UserInfoVO.builder()
+        return UserInfoVO.builder()
                 .username(username)
                 .avatar(blogSettingsDO.getAvatar())
                 .build();
-        return userInfoVO;
     }
 }

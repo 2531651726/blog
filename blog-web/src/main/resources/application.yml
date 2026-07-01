@@ -30,4 +30,24 @@ jwt:
   # token 请求头中的 value 值前缀
   tokenPrefix: Bearer
 
+# 验证码核心配置
+captcha:
+  # Redis 中验证码 key 的前缀，默认 captcha:slider
+  prefix: captcha
+  # 验证码过期时间，单位毫秒
+  expire:
+    # 默认全局过期时间 2分钟
+    default: 120000
+    # 可单独为某类验证码设置过期时间
+    WORD_IMAGE_CLICK: 120000
+  # 自动加载系统内置的滑块/旋转模板，开启后无需手动配置模板图片
+  init-default-resource: true
+  # 本地预缓存开关，高并发场景可开启提前生成验证码
+  local-cache-enabled: false
+  # 二次验证（业务绑定用，可选）
+  secondary:
+    enabled: true
+    expire: 120000
+    keyPrefix: "captcha:secondary"
+
 

@@ -11,5 +11,4 @@ public interface IUserAdminService extends IService<UserDO> {
 
     UserInfoVO getUserInfo();
 
-    UserInfoVO queryAdminDetail();
 }

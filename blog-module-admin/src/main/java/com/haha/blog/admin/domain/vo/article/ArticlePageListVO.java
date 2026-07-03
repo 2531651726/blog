@@ -1,5 +1,6 @@
 package com.haha.blog.admin.domain.vo.article;
 
+import com.haha.blog.common.enums.PublishStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,11 @@ public class ArticlePageListVO {
      * 是否置顶
      */
     private Boolean isTop;
+
+    /**
+     * 是否发布：0：未发布 1：已发布
+     */
+    private PublishStatus isPublish;
 
     /**
      * 发布时间

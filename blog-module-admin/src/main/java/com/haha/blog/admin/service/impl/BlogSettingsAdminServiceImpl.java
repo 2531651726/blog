@@ -5,7 +5,7 @@ import com.haha.blog.common.domain.vo.BlogSettings.BlogSettingsVO;
 import com.haha.blog.common.mapper.BlogSettingsMapper;
 import com.haha.blog.admin.service.IBlogSettingsAdminService;
 import com.haha.blog.common.domain.dos.BlogSettingsDO;
-import com.haha.blog.admin.domain.dto.BlogSettings.UpdateBlogSettingsDTO;
+import com.haha.blog.admin.domain.dto.blogSettings.UpdateBlogSettingsDTO;
 import com.haha.blog.common.exception.BizException;
 import com.haha.blog.common.utils.BeanUtils;
 import lombok.RequiredArgsConstructor;

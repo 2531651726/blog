@@ -1,7 +1,6 @@
 package com.haha.blog.common.utils;
 
 import com.haha.blog.common.exception.BaseExceptionInterface;
-import com.haha.blog.common.exception.BizException;
 import lombok.Data;
 
 import java.io.Serializable;

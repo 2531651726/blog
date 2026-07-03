@@ -1,17 +1,19 @@
 package com.haha.blog.admin.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
+import com.haha.blog.common.domain.dos.CategoryDO;
+import com.haha.blog.common.domain.dos.TagDO;
+import com.haha.blog.common.domain.vo.dashboard.DashboardCategoryRelInfoVO;
 import com.haha.blog.admin.domain.vo.dashboard.DashboardPVStatisticsInfoVO;
 import com.haha.blog.admin.domain.vo.dashboard.DashboardStatisticsInfoVO;
+import com.haha.blog.common.domain.vo.dashboard.DashboardTagRelInfoVO;
 import com.haha.blog.admin.service.IDashboardAdminService;
 import com.haha.blog.common.constants.DateConstants;
 import com.haha.blog.common.domain.dto.dashboard.ArticlePublishCountDTO;
 import com.haha.blog.common.domain.dos.StatisticsArticlePvDO;
-import com.haha.blog.common.mapper.ArticleMapper;
-import com.haha.blog.common.mapper.CategoryMapper;
-import com.haha.blog.common.mapper.StatisticsArticlePvMapper;
-import com.haha.blog.common.mapper.TagMapper;
+import com.haha.blog.common.mapper.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -100,6 +102,50 @@ public class DashboardAdminServiceImpl implements IDashboardAdminService {
         vo = new DashboardPVStatisticsInfoVO()
                 .setPvDates(pvDates)
                 .setPvCounts(pvCounts);
+        return vo;
+    }
+
+    @Override
+    public List<DashboardCategoryRelInfoVO> queryDashboardCategoryStatistics() {
+        // 查询所有未删除的分类及其文章总数
+        List<CategoryDO> categoryDOS = categoryMapper.selectList(Wrappers.<CategoryDO>lambdaQuery()
+                .orderByDesc(CategoryDO::getArticlesTotal));
+        if (CollectionUtil.isEmpty(categoryDOS)) {
+            return Collections.emptyList();
+        }
+        // 转换为 VO
+        return categoryDOS.stream()
+                .map(category -> {
+                    DashboardCategoryRelInfoVO vo = new DashboardCategoryRelInfoVO();
+                    vo.setName(category.getName());
+                    vo.setValue(category.getArticlesTotal() == null ? 0 : category.getArticlesTotal());
+                    return vo;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public DashboardTagRelInfoVO queryDashboardTagStatistics() {
+        // 查询所有未删除的标签及其文章总数，按文章数倒序取前10
+        List<TagDO> tagDOS = tagMapper.selectList(Wrappers.<TagDO>lambdaQuery()
+                .orderByDesc(TagDO::getArticlesTotal)
+                .last("LIMIT 10"));
+        DashboardTagRelInfoVO vo = new DashboardTagRelInfoVO();
+        if (CollectionUtil.isEmpty(tagDOS)) {
+            vo.setTagNames(Collections.emptyList());
+            vo.setArticleCounts(Collections.emptyList());
+            return vo;
+        }
+        // 提取标签名和文章数集合
+        List<String> tagNames = tagDOS.stream()
+                .map(TagDO::getName)
+                .collect(Collectors.toList());
+        List<Integer> articleCounts = tagDOS.stream()
+                .map(tag -> tag.getArticlesTotal() == null ? 0 : tag.getArticlesTotal())
+                .collect(Collectors.toList());
+        // 封装 VO
+        vo.setTagNames(tagNames);
+        vo.setArticleCounts(articleCounts);
         return vo;
     }
 }

@@ -3,7 +3,7 @@ package com.haha.blog.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.haha.blog.admin.domain.dto.User.UpdateAdminUserPasswordDTO;
+import com.haha.blog.admin.domain.dto.user.UpdateAdminUserPasswordDTO;
 import com.haha.blog.admin.service.IUserAdminService;
 import com.haha.blog.common.domain.dos.BlogSettingsDO;
 import com.haha.blog.common.domain.dos.UserDO;
@@ -52,6 +52,8 @@ public class UserAdminServiceImpl extends ServiceImpl<UserMapper, UserDO> implem
     public UserInfoVO getUserInfo() {
         String username = UserUtils.getUsername();
         BlogSettingsDO blogSettingsDO = blogSettingsMapper.selectOne(null);
+        System.out.println(username);
+        System.out.println(blogSettingsDO.getAvatar());
         return UserInfoVO.builder()
                 .username(username)
                 .avatar(blogSettingsDO.getAvatar())

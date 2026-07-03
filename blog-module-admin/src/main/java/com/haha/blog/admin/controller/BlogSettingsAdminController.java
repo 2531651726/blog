@@ -2,7 +2,7 @@ package com.haha.blog.admin.controller;
 
 import com.haha.blog.admin.service.IBlogSettingsAdminService;
 import com.haha.blog.common.aspect.ApiOperationLog;
-import com.haha.blog.admin.domain.dto.BlogSettings.UpdateBlogSettingsDTO;
+import com.haha.blog.admin.domain.dto.blogSettings.UpdateBlogSettingsDTO;
 import com.haha.blog.common.domain.vo.BlogSettings.BlogSettingsVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

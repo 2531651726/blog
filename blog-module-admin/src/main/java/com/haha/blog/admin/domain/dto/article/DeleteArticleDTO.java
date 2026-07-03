@@ -1,4 +1,4 @@
-package com.haha.blog.admin.domain.dto.Article;
+package com.haha.blog.admin.domain.dto.article;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;

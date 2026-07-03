@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+
+import com.haha.blog.common.enums.ArticleType;
+import com.haha.blog.common.enums.PublishStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -69,6 +72,13 @@ public class ArticleDO implements Serializable {
      * 权重，决定文章展示顺序
      */
     private Integer weight;
-
+    /**
+     * 文章类型
+     */
+    private ArticleType type;
+    /**
+     * 是否发布：0：未发布 1：已发布
+     */
+    private PublishStatus isPublish;
 
 }

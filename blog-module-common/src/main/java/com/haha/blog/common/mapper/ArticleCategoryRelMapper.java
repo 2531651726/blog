@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.haha.blog.common.domain.dos.ArticleCategoryRelDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.haha.blog.common.domain.dto.category.CategoryAndArticlesTotalDTO;
+import com.haha.blog.common.domain.vo.dashboard.DashboardCategoryRelInfoVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -43,4 +44,6 @@ public interface ArticleCategoryRelMapper extends BaseMapper<ArticleCategoryRelD
      * 统计每个分类下关联的文章数量
      */
     List<CategoryAndArticlesTotalDTO> selectCountGroupByCategoryId();
+
+
 }

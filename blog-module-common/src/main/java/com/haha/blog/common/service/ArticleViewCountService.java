@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -93,16 +92,22 @@ public class ArticleViewCountService {
         if (deltaMap.isEmpty()) {
             return;
         }
-        // 先删除redis缓存再更新数据库
-        redisTemplate.opsForHash().delete(RedisConstants.ARTICLE_VIEW_COUNT_DELTA_KEY,
-                deltaMap.keySet().toArray());
+        // 1. 先封装待更新数据
         Map<Long, Long> readNumMap = deltaMap.entrySet().stream()
                 .collect(Collectors.toMap(
                         entry -> Long.valueOf(entry.getKey()),
                         entry -> parseLong(entry.getValue())
                 ));
-        articleMapper.updateReadNumBatch(readNumMap);
-        log.info("==> 同步文章阅读量到数据库完成, 共 {} 条", readNumMap.size());
+        try {
+            // 2. 更新数据库
+            articleMapper.updateReadNumBatch(readNumMap);
+            // 3. 更新成功后，再删除 Redis 缓存
+            redisTemplate.opsForHash().delete(RedisConstants.ARTICLE_VIEW_COUNT_DELTA_KEY,
+                    deltaMap.keySet().toArray());
+            log.info("==> 同步文章阅读量到数据库完成, 共 {} 条", readNumMap.size());
+        } catch (Exception e) {
+            log.error("==> 同步文章阅读量到数据库失败", e);
+        }
     }
 
     /**

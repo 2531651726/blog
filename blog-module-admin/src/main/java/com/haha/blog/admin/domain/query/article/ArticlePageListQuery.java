@@ -1,5 +1,6 @@
 package com.haha.blog.admin.domain.query.article;
 
+import com.haha.blog.common.enums.ArticleType;
 import com.haha.blog.common.utils.BasePageQuery;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -29,4 +30,6 @@ public class ArticlePageListQuery extends BasePageQuery {
      * 发布的结束日期
      */
     private LocalDate endDate;
+
+    private ArticleType type;
 }

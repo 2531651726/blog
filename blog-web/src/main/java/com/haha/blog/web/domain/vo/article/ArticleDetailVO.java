@@ -19,6 +19,10 @@ public class ArticleDetailVO {
      */
     private LocalDateTime createTime;
     /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
+    /**
      * 阅读量
      */
     private Long readNum;

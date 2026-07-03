@@ -1,9 +1,8 @@
 package com.haha.blog.common.mapper;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.haha.blog.common.config.InsertBatchMapper;
+import com.haha.blog.common.utils.InsertBatchMapper;
 import com.haha.blog.common.domain.dos.ArticleTagRelDO;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.haha.blog.common.domain.dto.tag.TagAndArticlesTotalDTO;
 import org.apache.ibatis.annotations.Mapper;
 

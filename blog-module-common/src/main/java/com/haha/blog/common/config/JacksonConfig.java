@@ -50,7 +50,7 @@ public class JacksonConfig {
         // 设置时区
         objectMapper.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 
-        // 设置凡是为 null 的字段，返参中均不返回，请根据项目组约定是否开启
+        // 设置凡是为 null 的字段，返参中均不返回
         // objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
         return objectMapper;

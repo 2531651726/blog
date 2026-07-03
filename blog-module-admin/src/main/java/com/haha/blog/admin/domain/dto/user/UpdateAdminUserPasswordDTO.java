@@ -1,4 +1,4 @@
-package com.haha.blog.admin.domain.dto.User;
+package com.haha.blog.admin.domain.dto.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

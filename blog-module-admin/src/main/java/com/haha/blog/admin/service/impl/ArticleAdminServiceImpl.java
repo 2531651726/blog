@@ -3,17 +3,20 @@ package com.haha.blog.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.haha.blog.admin.domain.dto.Article.UpdateArticleWeightDTO;
+import com.haha.blog.admin.domain.dto.article.UpdateArticlePublishStatusDTO;
+import com.haha.blog.admin.domain.dto.article.UpdateArticleWeightDTO;
 import com.haha.blog.admin.event.message.ArticleChangeMessage;
 import com.haha.blog.admin.service.IArticleAdminService;
 import com.haha.blog.common.domain.dos.*;
-import com.haha.blog.admin.domain.dto.Article.DeleteArticleDTO;
-import com.haha.blog.admin.domain.dto.Article.UpdateArticleDTO;
+import com.haha.blog.admin.domain.dto.article.DeleteArticleDTO;
+import com.haha.blog.admin.domain.dto.article.UpdateArticleDTO;
 import com.haha.blog.admin.domain.query.article.ArticleDetailQuery;
 import com.haha.blog.admin.domain.query.article.ArticlePageListQuery;
 import com.haha.blog.admin.domain.query.article.PublishArticleQuery;
 import com.haha.blog.admin.domain.vo.article.ArticleDetailVO;
 import com.haha.blog.admin.domain.vo.article.ArticlePageListVO;
+import com.haha.blog.common.enums.ArticleType;
+import com.haha.blog.common.enums.PublishStatus;
 import com.haha.blog.common.exception.BizException;
 import com.haha.blog.common.mapper.*;
 
@@ -116,11 +119,13 @@ public class ArticleAdminServiceImpl extends ServiceImpl<ArticleMapper, ArticleD
         LocalDate endDate = query.getEndDate();
         LocalDateTime startDateTime = startDate != null ? startDate.atStartOfDay() : null;
         LocalDateTime endDateTime = endDate != null ? endDate.atTime(LocalTime.MAX) : null;
+        ArticleType type = query.getType();
         // 分页查询
         Page<ArticleDO> page = lambdaQuery()
                 .like(StringUtils.isNoneBlank(title), ArticleDO::getTitle, title)
                 .ge(Objects.nonNull(startDateTime), ArticleDO::getCreateTime, startDateTime)
                 .le(Objects.nonNull(endDateTime), ArticleDO::getCreateTime, endDateTime)
+                .eq(Objects.nonNull(type), ArticleDO::getType, type) // 文章类型
                 .orderByDesc(ArticleDO::getWeight) // 按权重倒序
                 .orderByDesc(ArticleDO::getCreateTime)
                 .page(new Page<>(current, size));
@@ -225,6 +230,17 @@ public class ArticleAdminServiceImpl extends ServiceImpl<ArticleMapper, ArticleD
         int row = articleMapper.updateById(articleUpdateDO);
         if (row == 0) {
             throw new BizException("权重更新失败");
+        }
+    }
+
+    @Override
+    public void updateArticlePublishStatus(UpdateArticlePublishStatusDTO dto) {
+        Long articleId = dto.getId();
+        PublishStatus status = dto.getIsPublish();
+        ArticleDO articleDO = new ArticleDO().setId(articleId).setIsPublish(status);
+        int row = articleMapper.updateById(articleDO);
+        if (row == 0) {
+            throw new BizException("更新文章发布状态失败");
         }
     }
 

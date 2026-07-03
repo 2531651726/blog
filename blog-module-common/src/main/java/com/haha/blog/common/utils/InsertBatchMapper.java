@@ -1,4 +1,4 @@
-package com.haha.blog.common.config;
+package com.haha.blog.common.utils;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;

@@ -1,7 +1,7 @@
 package com.haha.blog.admin.controller;
 
 
-import com.haha.blog.admin.domain.dto.User.UpdateAdminUserPasswordDTO;
+import com.haha.blog.admin.domain.dto.user.UpdateAdminUserPasswordDTO;
 import com.haha.blog.admin.service.IUserAdminService;
 import com.haha.blog.common.aspect.ApiOperationLog;
 import com.haha.blog.admin.domain.vo.user.UserInfoVO;

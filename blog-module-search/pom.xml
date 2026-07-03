@@ -27,37 +27,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- 常用工具库 -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-
-        <!-- lucene 全文检索引擎 -->
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>${lucene.version}</version>
-        </dependency>
-        <!-- 中文分词 -->
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-analyzers-smartcn</artifactId>
-            <version>${lucene.version}</version>
-        </dependency>
-        <!-- 关键词高亮 -->
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-highlighter</artifactId>
-            <version>${lucene.version}</version>
-        </dependency>
-        <!-- 查询解析器 -->
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-queryparser</artifactId>
-            <version>${lucene.version}</version>
-        </dependency>
-
         <!-- 文件操作工具包 -->
         <dependency>
             <groupId>commons-io</groupId>

@@ -1,5 +1,6 @@
 package com.haha.blog.web.domain.vo.article;
 
+import com.haha.blog.common.enums.PublishStatus;
 import com.haha.blog.web.domain.vo.category.CategoryVO;
 import com.haha.blog.web.domain.vo.tag.TagVO;
 import lombok.Data;
@@ -27,4 +28,5 @@ public class ArticleVO {
     private List<TagVO> tags;
 
     private Boolean isTop;
+    private PublishStatus isPublished;
 }

@@ -1,9 +1,10 @@
 package com.haha.blog.admin.controller;
 
-import com.haha.blog.admin.domain.dto.Article.UpdateArticleWeightDTO;
+import com.haha.blog.admin.domain.dto.article.UpdateArticlePublishStatusDTO;
+import com.haha.blog.admin.domain.dto.article.UpdateArticleWeightDTO;
 import com.haha.blog.common.aspect.ApiOperationLog;
-import com.haha.blog.admin.domain.dto.Article.DeleteArticleDTO;
-import com.haha.blog.admin.domain.dto.Article.UpdateArticleDTO;
+import com.haha.blog.admin.domain.dto.article.DeleteArticleDTO;
+import com.haha.blog.admin.domain.dto.article.UpdateArticleDTO;
 import com.haha.blog.admin.domain.query.article.ArticleDetailQuery;
 import com.haha.blog.admin.domain.query.article.ArticlePageListQuery;
 import com.haha.blog.admin.domain.query.article.PublishArticleQuery;
@@ -70,5 +71,13 @@ public class ArticleAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateArticleWeight(@Validated @RequestBody UpdateArticleWeightDTO dto){
         articleService.updateArticleWeight(dto);
+    }
+
+    @PostMapping("/isPublish/update")
+    @ApiOperation(value = "更新文章发布状态")
+    @ApiOperationLog(description = "更新文章发布状态")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void updateArticlePublishStatus(@Validated @RequestBody UpdateArticlePublishStatusDTO dto){
+        articleService.updateArticlePublishStatus(dto);
     }
 }

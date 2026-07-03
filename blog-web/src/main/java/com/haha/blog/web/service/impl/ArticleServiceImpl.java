@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.haha.blog.common.domain.dos.*;
+import com.haha.blog.common.enums.PublishStatus;
 import com.haha.blog.common.enums.ResponseCodeEnum;
 import com.haha.blog.common.exception.BizException;
 import com.haha.blog.common.mapper.*;
@@ -60,6 +61,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleDO> im
         Long size = query.getSize();
         // 分页查询文章
         Page<ArticleDO> articleDOPage = lambdaQuery()
+                .eq(ArticleDO::getIsPublish, PublishStatus.PUBLISHED)
                 .orderByDesc(ArticleDO::getWeight) // 按权重倒序
                 .orderByDesc(ArticleDO::getCreateTime)
                 .page(new Page<>(current, size));

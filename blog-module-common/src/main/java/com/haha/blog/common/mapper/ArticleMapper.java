@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.haha.blog.common.domain.dto.dashboard.ArticlePublishCountDTO;
 import com.haha.blog.common.domain.dos.ArticleDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.haha.blog.common.enums.ArticleType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -92,5 +93,7 @@ public interface ArticleMapper extends BaseMapper<ArticleDO> {
             "WHERE create_time >= #{startDate} AND create_time < #{endDate}\n" +
             "GROUP BY DATE(create_time)")
     List<ArticlePublishCountDTO> queryArticlePublishCountByDate(LocalDate startDate, LocalDate endDate);
+
+    int updateTypeByIds(@Param("type") ArticleType type, @Param("ids") Collection<Long> ids);
 
 }

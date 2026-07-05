@@ -6,30 +6,32 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
-public enum PublishStatus implements BaseEnum{
-    UN_PUBLISH(0, "未发布"),
-    PUBLISHED(1, "已发布");
+public enum CommentStatus implements BaseEnum{
+
+    PENDING_AUDIT(1, "待审核"),
+    NORMAL(2, "正常"),
+    AUDIT_REJECT(3, "审核未通过");
 
     @JsonValue
     @EnumValue
     private final int value;
     private final String desc;
 
-    PublishStatus(int value, String desc) {
+    CommentStatus(int value, String desc) {
         this.value = value;
         this.desc = desc;
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static PublishStatus of(Integer value) {
+    public static CommentStatus of(Integer value) {
         if (value == null) {
             return null;
         }
-        for (PublishStatus status : values()) {
+        for (CommentStatus status : values()) {
             if (status.equalsValue(value)) {
                 return status;
             }
         }
-        throw new IllegalArgumentException("非法的评论状态：" + value);
+        throw new IllegalArgumentException("非法的发布状态：" + value);
     }
 }

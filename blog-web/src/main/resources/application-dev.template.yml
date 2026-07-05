@@ -23,6 +23,20 @@ spring:
     password: { redis密码 }
     database: 0
 
+  mail:
+    host: smtp.qq.com # 邮件服务器的地址
+    username: xxx@qq.com # 发送邮件的邮箱账号
+    password: xxx # 授权码，或发送邮件的邮箱账号的密码
+    default-encoding: utf-8 # 邮件内容的字符编码
+    protocol: smtps # 邮件传输协议：smtps 表示SMTP over SSL，是一种加密的SMTP连接方式，用于确保邮件传输的安全性。
+    port: 465 # 邮件服务器的端口号：465 是 SMTPS（SMTP over SSL）的常用端口号，用于加密的邮件传输。
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+
 minio:
   endpoint: { MinIO服务访问地址 }
   accessKey: { MinIO账号 }
@@ -32,3 +46,5 @@ minio:
 jwt:
   issuer: { 签名 }
   secret: { 密钥 }
+
+

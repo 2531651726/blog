@@ -35,4 +35,10 @@ public class BlogSettingsDO {
     private String giteeHomepage;
 
     private String zhihuHomepage;
+
+    private String mail;
+
+    private Boolean isCommentSensiWordOpen;
+
+    private Boolean isCommentExamineOpen;
 }

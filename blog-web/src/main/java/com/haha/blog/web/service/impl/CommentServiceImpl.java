@@ -1,6 +1,8 @@
 package com.haha.blog.web.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.haha.blog.common.domain.dos.BlogSettingsDO;
 import com.haha.blog.common.domain.dos.CommentDO;
 import com.haha.blog.common.enums.CommentStatus;
@@ -19,8 +21,12 @@ import com.haha.blog.web.service.ICommentService;
 import com.haha.blog.web.utils.QQUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.RestTemplate;
 import toolgood.words.IllegalWordsSearch;
 import toolgood.words.IllegalWordsSearchResult;
 
@@ -37,6 +43,10 @@ public class CommentServiceImpl implements ICommentService {
     private final IllegalWordsSearch wordsSearch;
     private final ApplicationEventPublisher eventPublisher;
 
+    private final RestTemplate restTemplate;
+    @Value("${api-key}")
+    private String apiKey;
+
     @Override
     public QQUserInfoVO queryQQUserInfo(QQUserInfoQuery query) {
         String qq = query.getQq().trim();
@@ -44,14 +54,29 @@ public class CommentServiceImpl implements ICommentService {
             log.warn("QQ号格式错误: {}", qq);
             throw new BizException("QQ号格式错误");
         }
-        // 获取头像
-        String url = String.format("https://q.qlogo.cn/headimg_dl?dst_uin=" + qq + "&spec=100");
-        // 封装结果
-        QQUserInfoVO vo = new QQUserInfoVO();
-        vo.setMail(qq + "@qq.com");
-        vo.setAvatar(url);
-        vo.setNickname("");
-        return vo;
+        // 请求第三方接口
+        String url = String.format("http://api.guiguiya.com/api/qq_info?qq=%s&apiKey=%s", qq, apiKey);
+        String result = restTemplate.getForObject(url, String.class);
+        log.info("通过 QQ 号获取用户信息: {}", result);
+        // 解析响参
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Map<String, Object> map = objectMapper.readValue(result, Map.class);
+            if (Objects.equals(map.get("code"), HttpStatus.OK.value())) {
+                // 获取响应参数中 data 节点下的数据
+                Map<String, Object> data = (Map<String, Object>) map.get("data");
+                if (!CollectionUtils.isEmpty(data)) {
+                    // 获取用户头像、昵称、邮箱
+                    return new QQUserInfoVO()
+                            .setAvatar(String.valueOf(data.get("avatar_apiurl_1")))
+                            .setNickname(String.valueOf(data.get("name")))
+                            .setMail(qq.trim() + "@qq.com");
+                }
+            }
+            return null;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

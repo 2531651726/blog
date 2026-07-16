@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.haha.blog.admin.domain.dto.article.UpdateArticlePublishStatusDTO;
 import com.haha.blog.admin.domain.dto.article.UpdateArticleWeightDTO;
 import com.haha.blog.admin.event.message.ArticleChangeMessage;
+import com.haha.blog.admin.event.message.ArticleChangeMessage.ChangeType;
 import com.haha.blog.admin.service.IArticleAdminService;
 import com.haha.blog.common.domain.dos.*;
 import com.haha.blog.admin.domain.dto.article.DeleteArticleDTO;
@@ -86,8 +87,8 @@ public class ArticleAdminServiceImpl extends ServiceImpl<ArticleMapper, ArticleD
         // 5. 保存文章关联的标签
         List<String> tags = query.getTags();
         insertTags(articleId, tags);
-        // 发布消息，更新分类下的文章数量
-        applicationContext.publishEvent(new ArticleChangeMessage(this));
+        // 发布消息
+        applicationContext.publishEvent(new ArticleChangeMessage(this, articleId, ChangeType.CREATE));
     }
 
     @Override
@@ -105,8 +106,8 @@ public class ArticleAdminServiceImpl extends ServiceImpl<ArticleMapper, ArticleD
                 .eq(ArticleContentDO::getArticleId, articleId));
         // 4. 删除文章记录
         baseMapper.deleteById(articleId);
-        // 发布消息，更新分类下的文章数量
-        applicationContext.publishEvent(new ArticleChangeMessage(this));
+        // 发布消息
+        applicationContext.publishEvent(new ArticleChangeMessage(this, articleId, ChangeType.DELETE));
     }
 
     @Override
@@ -216,6 +217,8 @@ public class ArticleAdminServiceImpl extends ServiceImpl<ArticleMapper, ArticleD
                 .eq(ArticleTagRelDO::getArticleId, articleId));
         List<String> tags = dto.getTags();
         insertTags(articleId, tags);
+        // 发布消息
+        applicationContext.publishEvent(new ArticleChangeMessage(this, articleId, ChangeType.UPDATE));
     }
 
     @Override

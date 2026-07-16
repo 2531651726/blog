@@ -1,5 +1,6 @@
 package com.haha.blog.web.websocket;
 
+import com.haha.blog.common.constants.DateConstants;
 import com.haha.blog.common.domain.dos.ChatMessageDO;
 import com.haha.blog.common.exception.BizException;
 import com.haha.blog.common.mapper.ChatMessageMapper;
@@ -19,7 +20,6 @@ import org.springframework.util.CollectionUtils;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +37,7 @@ public class ChatWebSocketServer {
     private static final AtomicInteger ONLINE_COUNT = new AtomicInteger(0);
     private static final Map<String, String> SESSION_ID_TO_KEY_MAP = new ConcurrentHashMap<>();
     private static final String USER_INFO = "user_info";
-    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
+
 
     @OnOpen
     public void onOpen(Session session) {
@@ -161,7 +161,7 @@ public class ChatWebSocketServer {
                 .setAvatar(avatar)
                 .setContent(content)
                 .setSessionId(null)
-                .setTime(LocalDateTime.now().format(TIME_FORMATTER))
+                .setTime(LocalDateTime.now().format(DateConstants.TIME_FORMATTER))
                 .setOnlineCount(ONLINE_COUNT.get())
         );
         // 构建带 sessionKey 的消息（发送给发送者自己）
@@ -171,7 +171,7 @@ public class ChatWebSocketServer {
                 .setAvatar(avatar)
                 .setContent(content)
                 .setSessionId(senderSessionKey)
-                .setTime(LocalDateTime.now().format(TIME_FORMATTER))
+                .setTime(LocalDateTime.now().format(DateConstants.TIME_FORMATTER))
                 .setOnlineCount(ONLINE_COUNT.get())
         );
         SESSION_MAP.forEach((sessionKey, session) -> {
@@ -199,7 +199,7 @@ public class ChatWebSocketServer {
                 .setNickname(nickname)
                 .setAvatar(avatar)
                 .setContent(content)
-                .setTime(LocalDateTime.now().format(TIME_FORMATTER))
+                .setTime(LocalDateTime.now().format(DateConstants.TIME_FORMATTER))
                 .setOnlineCount(ONLINE_COUNT.get());
         if (Objects.nonNull(sessionKey)) {
             chatMessageVO.setSessionId(sessionKey);

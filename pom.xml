@@ -36,6 +36,7 @@
         <commons-io.version>2.11.0</commons-io.version>
         <tianai-captcha.version>1.5.4</tianai-captcha.version>
         <toolgood-words.version>3.1.0.1</toolgood-words.version>
+        <elasticsearch.version>7.17.15</elasticsearch.version>
         <!-- Maven 相关 -->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -187,6 +188,19 @@
                 <groupId>io.github.toolgood</groupId>
                 <artifactId>toolgood-words</artifactId>
                 <version>${toolgood-words.version}</version>
+            </dependency>
+
+            <!-- ES核心包 -->
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <!-- Elasticsearch 7.17.15 REST 高级客户端 -->
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.version}</version>
             </dependency>
 
         </dependencies>

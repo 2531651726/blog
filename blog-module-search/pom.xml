@@ -27,10 +27,29 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- 文件操作工具包 -->
+        <!--&lt;!&ndash; 文件操作工具包 &ndash;&gt;
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+        </dependency>-->
+
+        <!-- Elasticsearch 7.17.15 REST 高级客户端 -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+        </dependency>
+
+        <!-- Spring Boot 配置处理器，用于 IDE 中 ES 配置项提示 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- 常用工具包 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
         </dependency>
 
     </dependencies>

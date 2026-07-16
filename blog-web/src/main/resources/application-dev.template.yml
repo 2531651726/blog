@@ -37,6 +37,9 @@ spring:
           ssl:
             enable: true
 
+  elasticsearch:
+    uris: http://{ }:9200
+
 minio:
   endpoint: { MinIO服务访问地址 }
   accessKey: { MinIO账号 }
